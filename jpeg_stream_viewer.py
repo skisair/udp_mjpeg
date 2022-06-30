@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 
-class JpegStreamViewer:
+class JpegStreamProcessor:
     
     # 移動平均配列要素数
     AVERAGE_SPAN = int(os.environ.get('AVERAGE_SPAN', default='100'))
@@ -48,20 +48,23 @@ class JpegStreamViewer:
 
         while True:
             # JPEGの先頭と終了を探索
-            start_index = self.buffer.find(JpegStreamViewer.SOI)
-            end_index = self.buffer.find(JpegStreamViewer.EOI)
+            start_index = self.buffer.find(JpegStreamProcessor.SOI)
+            end_index = self.buffer.find(JpegStreamProcessor.EOI)
             if end_index < 0:
                 break
             image_buffer = self.buffer[start_index:end_index]
-            self.buffer = self.buffer[end_index + len(JpegStreamViewer.EOI):]
+            self.buffer = self.buffer[end_index + len(JpegStreamProcessor.EOI):]
             if len(image_buffer) == 0:
                 continue
             # イメージの復号
             image = self.decode_image(image_buffer)
-
             self._add_fps_stats(current_time)
-            cv2.imshow('img', image)
-            cv2.waitKey(1)
+            stats = {
+                'bps': self.get_bps(),
+                'fps': self.get_fps(),
+                'rate': self.get_compression_rate(),
+            }
+            yield image, stats
             self.show_stats()
 
     def decode_image(self, image_buffer):
@@ -115,7 +118,7 @@ class JpegStreamViewer:
         :return:
         """
         self.frame_times.append(current_time - self.last_frame_time)
-        if len(self.frame_times) > JpegStreamViewer.AVERAGE_SPAN:
+        if len(self.frame_times) > JpegStreamProcessor.AVERAGE_SPAN:
             self.frame_times = self.frame_times[1:]
         self.last_frame_time = current_time
 
@@ -128,7 +131,7 @@ class JpegStreamViewer:
         """
         self.chunk_times.append(current_time - self.last_chunk_time)
         self.chunks.append(len(chunk))
-        if len(self.chunk_times) > JpegStreamViewer.AVERAGE_SPAN:
+        if len(self.chunk_times) > JpegStreamProcessor.AVERAGE_SPAN:
             self.chunk_times = self.chunk_times[1:]
             self.chunks = self.chunks[1:]
         self.last_chunk_time = current_time
@@ -145,5 +148,5 @@ class JpegStreamViewer:
             size *= i
         rate = len(img_buf) * 100 / size
         self.compression_rate.append(rate)
-        if len(self.compression_rate) > JpegStreamViewer.AVERAGE_SPAN:
+        if len(self.compression_rate) > JpegStreamProcessor.AVERAGE_SPAN:
             self.compression_rate = self.compression_rate[1:]
