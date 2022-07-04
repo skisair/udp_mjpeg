@@ -52,7 +52,7 @@ class JpegStreamProcessor:
             end_index = self.buffer.find(JpegStreamProcessor.EOI)
             if end_index < 0:
                 break
-            image_buffer = self.buffer[start_index:end_index]
+            image_buffer = self.buffer[start_index:end_index + len(JpegStreamProcessor.EOI)]
             self.buffer = self.buffer[end_index + len(JpegStreamProcessor.EOI):]
             if len(image_buffer) == 0:
                 continue
@@ -144,6 +144,9 @@ class JpegStreamProcessor:
         :return:
         """
         size = 1
+        if img is None:
+            return
+
         for i in img.shape:
             size *= i
         rate = len(img_buf) * 100 / size

@@ -15,7 +15,7 @@ if __name__ == '__main__':
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # ブロードキャストを行うので、設定
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-    camera = VideoCamera()
+    camera = VideoCamera(debug=True)
     while True:
         frame = camera.get_frame()
         while len(frame) > 0:
