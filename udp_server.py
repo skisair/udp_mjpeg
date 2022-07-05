@@ -6,7 +6,7 @@ import socket
 from camera import VideoCamera
 
 HOST_NAME = os.environ.get('UDP_TARGET', default='<broadcast>')
-PORT = int(os.environ.get('UDP_PORT', default='8000'))
+PORT = int(os.environ.get('UDP_PORT', default='58000'))
 
 UDP_MAX_SIZE = int(os.environ.get('CHUNK_SIZE', default='65507'))
 

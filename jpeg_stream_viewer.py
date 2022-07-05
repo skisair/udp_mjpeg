@@ -53,10 +53,17 @@ class JpegStreamProcessor:
             if end_index < 0:
                 break
             image_buffer = self.buffer[start_index:end_index + len(JpegStreamProcessor.EOI)]
+            if image_buffer[2:].find(JpegStreamProcessor.SOI) > 0:
+                print(f'SOI:{image_buffer[2:].find(JpegStreamProcessor.SOI) + 2}', start_index, end_index)
+
             self.buffer = self.buffer[end_index + len(JpegStreamProcessor.EOI):]
             if len(image_buffer) == 0:
                 continue
+
             # イメージの復号
+            with open(f'log/{time.perf_counter()}.jpeg', mode='wb') as f:
+                f.write(image_buffer)
+
             image = self.decode_image(image_buffer)
             self._add_fps_stats(current_time)
             stats = {
