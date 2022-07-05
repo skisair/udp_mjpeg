@@ -26,6 +26,8 @@ PowerShellからvenvに入り、以下のコマンドを実行する。
 (venv) PS> streamlit run ./streamlit_client.py
 ```
 
+![StreamViewer](https://user-images.githubusercontent.com/5093198/177243456-9dcdca9d-4497-411b-9bff-39898c581ec7.png)
+
 左側パネルの、Protocol、Host、Portからそれぞれ設定を行うことが可能。
 
 画像下の構造体は、転送レート：bps(M bit / sec)、フレームレート:fps（Frame / sec）、圧縮率:rate （転送JPEGサイズ / ビットマップサイズ）
