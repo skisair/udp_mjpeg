@@ -61,8 +61,8 @@ class JpegStreamProcessor:
                 continue
 
             # イメージの復号
-            with open(f'log/{time.perf_counter()}.jpeg', mode='wb') as f:
-                f.write(image_buffer)
+            # with open(f'log/{time.perf_counter()}.jpeg', mode='wb') as f:
+            #     f.write(image_buffer)
 
             image = self.decode_image(image_buffer)
             self._add_fps_stats(current_time)

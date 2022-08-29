@@ -16,6 +16,19 @@ PS> .\venv\Scripts\activate.ps1
 
 ライブラリ群のインストール(コンソールに"(venv)"と表記されていることを確認)
 ```
+sudo apt install -y -V ca-certificates lsb-release wget
+wget https://apache.jfrog.io/artifactory/arrow/debian/apache-arrow-apt-source-latest-bust
+er.deb
+sudo apt install -y -V  ./apache-arrow-apt-source-latest-buster.deb
+
+
+wget https://apache.jfrog.io/artifactory/arrow/debian/apache-arrow-archive-keyring-latest-buster.deb
+sudo apt install ./apache-arrow-archive-keyring-latest-buster.deb
+
+
+sudo apt -y update
+sudo apt -y install libarrow-dev libarrow-python-dev
+
 (venv) PS> pip install -r requirements.txt
 ```
 

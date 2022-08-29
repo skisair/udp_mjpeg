@@ -5,4 +5,4 @@ streamlit
 streamlit-webrtc
 plotly-express==0.4.1
 pandas
-
+pyinstaller

@@ -15,7 +15,7 @@ from jpeg_stream_viewer import JpegStreamProcessor
 
 UDP_TARGET = os.environ.get('UDP_TARGET', default='')
 TCP_TARGET = os.environ.get('TCP_TARGET', default='localhost')
-UDP_PORT = int(os.environ.get('UDP_PORT', default='58000'))
+UDP_PORT = int(os.environ.get('UDP_PORT', default='65000'))
 TCP_PORT = int(os.environ.get('TCP_PORT', default='8000'))
 DATAGRAM_SIZE = int(os.environ.get('DATAGRAM_SIZE', default='65507'))
 
